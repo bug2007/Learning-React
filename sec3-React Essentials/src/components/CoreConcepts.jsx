@@ -17,7 +17,8 @@ export default function CoreConcepts() {
             <CoreConcept { ...CORE_CONCEPTS[2]} />
             <CoreConcept { ...CORE_CONCEPTS[3]} /> */}
             {/* OR */}
-            {CORE_CONCEPTS.map((conceptItem) => <CoreConcept key={conceptItem.title} {...conceptItem} />)}  // key is a special prop that React uses to keep track of list items. it should be unique among siblings. here we can use title as key because its unique among the concepts.
+            {/* key is a special prop that React uses to keep track of list items. it should be unique among siblings. here we can use title as key because its unique among the concepts. */}
+            {CORE_CONCEPTS.map((conceptItem) => <CoreConcept key={conceptItem.title} {...conceptItem} />)}
             </ul>
         </section>
     );

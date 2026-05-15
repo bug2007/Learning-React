@@ -3,6 +3,6 @@
 // }
 
 // OR
-export default function  TabButton({ children, onSelect, isSelected }) {
-    return <li><button className={isSelected ? 'active' : ''} onClick={onSelect}>{children}</button></li>  // props.children is whatever u put between the <TabButton> and </TabButton>
+export default function  TabButton({ children, isSelected, ...props }) {
+    return <li><button className={isSelected ? 'active' : ''} {...props}>{children}</button></li>  // props.children is whatever u put between the <TabButton> and </TabButton>
 }
