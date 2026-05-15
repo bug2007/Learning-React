@@ -1,7 +1,9 @@
 // contains the html that we seeing on the screen. jsx = javascript syntax extension. allows to write html in js file.
 // a component is really just a js function that retuns some jsx code.
+import { useState } from "react";
 
 import { CORE_CONCEPTS } from "./data.js";
+import { EXAMPLES } from "./data.js";
 import Header from "./components/Header/Header.jsx";
 import CoreConcept from "./components/CoreConcept.jsx";
 import TabButton from "./components/TabButton.jsx";
@@ -13,6 +15,26 @@ function genRandomInt(max) {
 }
 
 function App() {
+  const [ selectedTopic, setSelectedTopic ] = useState(); // useState returns an array. state is what React uses to store data that can change over time. when state changes, React re-renders the component which is important to update the UI with the newly changed data as without state inside a component, React will render the component only once by default and wont update the UI even if data changes.
+
+  function handleSelect(selectedButton) {
+    setSelectedTopic(selectedButton);
+  }
+
+  let tabContent = <p>Please select a topic.</p>;
+
+  if (selectedTopic) {
+    tabContent = (
+      <div id="tab-content">
+        <h3>{EXAMPLES[selectedTopic].title}</h3>
+        <p>{EXAMPLES[selectedTopic].description}</p>
+        <pre>
+          <code>{EXAMPLES[selectedTopic].code}</code>
+        </pre>
+      </div>
+    );
+  }
+
   return (
     <div>
       <Header></Header>
@@ -35,11 +57,13 @@ function App() {
         <section id="examples">
           <h2>Examples</h2>
           <menu>
-            <TabButton>Components</TabButton>
-            <TabButton>JSX</TabButton>
-            <TabButton>Props</TabButton>
-            <TabButton>State</TabButton>
+            {/* prop names are up to you */}
+            <TabButton onSelect={() => handleSelect('components')}>Components</TabButton>
+            <TabButton onSelect={() => handleSelect('jsx')}>JSX</TabButton>
+            <TabButton onSelect={() => handleSelect('props')}>Props</TabButton>
+            <TabButton onSelect={() => handleSelect('state')}>State</TabButton>
           </menu>
+          {tabContent}
         </section>
       </main>
     </div>
