@@ -48,20 +48,22 @@ function App() {
               description={CORE_CONCEPTS[0].description}
               image={CORE_CONCEPTS[0].image} /> */}
             {/* OR */}
-            <CoreConcept { ...CORE_CONCEPTS[0]} />
+            {/* <CoreConcept { ...CORE_CONCEPTS[0]} />
             <CoreConcept { ...CORE_CONCEPTS[1]} />
             <CoreConcept { ...CORE_CONCEPTS[2]} />
-            <CoreConcept { ...CORE_CONCEPTS[3]} />
+            <CoreConcept { ...CORE_CONCEPTS[3]} /> */}
+            {/* OR */}
+            {CORE_CONCEPTS.map((conceptItem) => <CoreConcept key={conceptItem.title} {...conceptItem} />)}  // key is a special prop that React uses to keep track of list items. it should be unique among siblings. here we can use title as key because its unique among the concepts.
           </ul>
         </section>
         <section id="examples">
           <h2>Examples</h2>
           <menu>
             {/* prop names are up to you */}
-            <TabButton onSelect={() => handleSelect('components')}>Components</TabButton>
-            <TabButton onSelect={() => handleSelect('jsx')}>JSX</TabButton>
-            <TabButton onSelect={() => handleSelect('props')}>Props</TabButton>
-            <TabButton onSelect={() => handleSelect('state')}>State</TabButton>
+            <TabButton isSelected={selectedTopic === 'components'} onSelect={() => handleSelect('components')}>Components</TabButton>
+            <TabButton isSelected={selectedTopic === 'jsx'} onSelect={() => handleSelect('jsx')}>JSX</TabButton>
+            <TabButton isSelected={selectedTopic === 'props'} onSelect={() => handleSelect('props')}>Props</TabButton>
+            <TabButton isSelected={selectedTopic === 'state'} onSelect={() => handleSelect('state')}>State</TabButton>
           </menu>
           {tabContent}
         </section>
