@@ -7,6 +7,7 @@ export default function Player() {
 
   function handleClick() {
     setEnteredPlayerName(playerName.current.value); // playerName.current is directly accessing the input element even without passing any event or anything to the button's handleClick() func. 
+    playerName.current.value='';
   }
 
   return (
