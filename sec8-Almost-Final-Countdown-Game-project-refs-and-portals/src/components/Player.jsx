@@ -1,7 +1,7 @@
 import { useState, useRef } from 'react';
 
 export default function Player() {
-  const playerName = useRef(); // it's like a special variable. playerName will always be a js object, here. the input element and the playeName are not connected, so u can access the input element by using playerName
+  const playerName = useRef(); // it's like a special variable. playerName will always be a js object, here. the input element and the playeName are not connected, so u can access the input element by using playerName. unlike state, it doesnt re-render the component. refs can be used to directly access DOM elements for reading their values or accessing certain browser APIs.
 
   const [enteredPlayerName, setEnteredPlayerName] = useState('');
 
