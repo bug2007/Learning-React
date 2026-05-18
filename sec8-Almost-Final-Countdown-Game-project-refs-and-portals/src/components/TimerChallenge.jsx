@@ -13,7 +13,7 @@ export default function TimerChallenge({ title, targetTime }) {
         setTimerStarted(true);
         timer.current = setTimeout(() => {
             setTimerExpired(true);
-            dialog.current.showModal();  // dialog.current holds the <dialog> element now as I connected this ref with the <dialog> element in ResultModal.jsx
+            dialog.current.open();  // dialog.current holds the object that's returned by the useImperativeHandle in ResultModal.jsx
         }, targetTime * 1000);
     }
 
