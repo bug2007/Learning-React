@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { styled } from 'styled-components';
 
 import Button from './Button.jsx';
-import CustomInput from './Input.jsx';
+import Input from './Input.jsx';
 
 // returns a component. It can use the children prop as well, just like a normal component
 const ControlContainer = styled.div`  
@@ -35,7 +35,7 @@ export default function AuthInputs() {
   return (
     <div id="auth-inputs">
       <ControlContainer>
-          <CustomInput
+          <Input
             label="Email"
             type="email"
             // style={{
@@ -44,7 +44,7 @@ export default function AuthInputs() {
             invalid={emailNotValid}
             onChange={(event) => handleInputChange('email', event.target.value)}
           />
-          <CustomInput
+          <Input
             label="Password"
             type="password"
             invalid={passwordNotValid}
