@@ -7,11 +7,13 @@ export default function TimerChallenge({ title, targetTime }) {
     const [timerExpired, setTimerExpired] = useState(false);
 
     const timer = useRef();  // had we used just a normal variable (let timer;), it wud have re-executed with the component and thus been reset. but refs, like states, are not re-executed along with the component.
+    const dialog = useRef();
 
     function handleStart() {
         setTimerStarted(true);
         timer.current = setTimeout(() => {
             setTimerExpired(true);
+            dialog.current.showModal();  // dialog.current holds the <dialog> element now as I connected this ref with the <dialog> element in ResultModal.jsx
         }, targetTime * 1000);
     }
 
@@ -21,7 +23,7 @@ export default function TimerChallenge({ title, targetTime }) {
 
     return (
         <>
-        {timerExpired && <ResultModal targetTime={targetTime} result="lost" />}
+        <ResultModal ref={dialog} targetTime={targetTime} result="lost" />
         <section className="challenge">
             <h2>{title}</h2>
             <p className="challenge-time">
