@@ -1,4 +1,4 @@
-import { createContext, useState, useReducer } from "react";  // useReducer reduces one or more complex values to a simpler one for state management purposes. can use it in any React component that needs state
+import { createContext, useState, useReducer } from "react";  // useReducer reduces one or more complex values to a simpler one for state management purposes. can use it in any React component that needs state. it will edit state and return the updated state, just like useState. but will be provided with the latest state snapshot unlike useState where we have to write setState((prevState) =>{})
 
 import { DUMMY_PRODUCTS } from "../dummy-products.js";
 
