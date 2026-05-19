@@ -67,9 +67,14 @@ function App() {
     });
   }
 
+  const ctxValue = {
+    items: shoppingCart.items,
+    addItemToCart: handleAddItemToCart  // exposing the func thru context
+  }
+
   return (
-    // wrap the context around the components that should be able to access the context. their child components will also be able to access. do provide the context value in value=
-    <CartContext value={{ items: [] }}>  
+    // wrap the context around the components that should be able to access the context. their child components will also be able to access. do provide the context value in value={{items: []}} (items array will remain empty that way), or link context to state like value={shoppingCart} if u wanna share state across multiple components, or ctxValue to share both state and state updating functions or properties from the App component with other components
+    <CartContext value={ctxValue}>  
       <Header
         cart={shoppingCart}
         onUpdateCartItemQuantity={handleUpdateCartItemQuantity}
