@@ -7,10 +7,15 @@ import DeleteConfirmation from './components/DeleteConfirmation.jsx';
 import logoImg from './assets/logo.png';
 import { sortPlacesByDistance } from './loc.js';
 
+// it doesnt take time to finish unlike the navigator code. no need to use useEffect either
+const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
+const storedPlaces = storedIds.map((id) => 
+AVAILABLE_PLACES.find((place) => place.id === id))
+
 function App() {
   const modal = useRef();
   const selectedPlace = useRef();
-  const [pickedPlaces, setPickedPlaces] = useState([]);
+  const [pickedPlaces, setPickedPlaces] = useState(storedPlaces);
   const [ availablePlaces, setAvailablePlaces ] = useState([]);
 
   // now this func inside useEffect will be executed only after the App component execution. the empty array given is a dependency. if the dependency doesnt change, the useEffect wont be re-executed when the App component re-executes.
@@ -22,7 +27,7 @@ function App() {
     });  
   }, []);
 
-  // this code is a sideEffect that does not directly or instantly impact the UI or the re-rendering of the App component or does not need to be rendered with the App component. app component will be rendered before this func is even finished. this wud also cause an infinite loop. use useEffect to handle side effects. not all sideEffects need useEffect tho
+  // this code is a sideEffect that does not directly or instantly impact the UI or the re-rendering of the App component or does not need to be rendered with the App component. app component will be rendered before this func is even finished. this wud also cause an infinite loop. so use useEffect to handle side effects. not all sideEffects need useEffect tho
   // navigator.geolocation.getCurrentPosition((position) => { // to get the current loc of the user of the website. they will be asked for permission. arrow func will be called after fetching the loc
   //   const sortedPlaces = sortPlacesByDistance(AVAILABLE_PLACES, position.coords.latitude, position.coords.longitude)
 
@@ -61,6 +66,9 @@ function App() {
       prevPickedPlaces.filter((place) => place.id !== selectedPlace.current)
     );
     modal.current.close();
+
+    const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
+    localStorage.setItem('selectedPlaces', JSON.stringify(storedIds.filter((id) => id !== selectedPlace.current)))
   }
 
   return (
