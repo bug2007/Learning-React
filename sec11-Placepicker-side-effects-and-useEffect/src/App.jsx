@@ -13,12 +13,12 @@ const storedPlaces = storedIds.map((id) =>
 AVAILABLE_PLACES.find((place) => place.id === id))
 
 function App() {
-  const modal = useRef();
   const selectedPlace = useRef();
+  const [modalIsOpen, setModalIsOpen] = useState(false);
   const [pickedPlaces, setPickedPlaces] = useState(storedPlaces);
   const [ availablePlaces, setAvailablePlaces ] = useState([]);
 
-  // now this func inside useEffect will be executed only after the App component execution. the empty array given is a dependency. if the dependency doesnt change, the useEffect wont be re-executed when the App component re-executes.
+  // now this func inside useEffect will be executed once only after the App component execution. the empty array given is a dependency. if the dependency doesnt change, the useEffect wont be re-executed when the App component re-executes.
   useEffect(() => {
     navigator.geolocation.getCurrentPosition((position) => { // to get the current loc of the user of the website. they will be asked for permission. arrow func will be called after fetching the loc
       const sortedPlaces = sortPlacesByDistance(AVAILABLE_PLACES, position.coords.latitude, position.coords.longitude)
@@ -27,7 +27,7 @@ function App() {
     });  
   }, []);
 
-  // this code is a sideEffect that does not directly or instantly impact the UI or the re-rendering of the App component or does not need to be rendered with the App component. app component will be rendered before this func is even finished. this wud also cause an infinite loop. so use useEffect to handle side effects. not all sideEffects need useEffect tho
+  // this code is a sideEffect that does not directly or instantly impact the returned JSX code or the re-rendering of the App component or does not need to be rendered with the App component. app component will be rendered before this func is even finished. this wud also cause an infinite loop. so use useEffect to handle side effects. not all sideEffects need useEffect tho. useEffect only runs once after the first execution of the component.
   // navigator.geolocation.getCurrentPosition((position) => { // to get the current loc of the user of the website. they will be asked for permission. arrow func will be called after fetching the loc
   //   const sortedPlaces = sortPlacesByDistance(AVAILABLE_PLACES, position.coords.latitude, position.coords.longitude)
 
@@ -35,12 +35,12 @@ function App() {
   // });  
 
   function handleStartRemovePlace(id) {
-    modal.current.open();
+    setModalIsOpen(true);
     selectedPlace.current = id;
   }
 
   function handleStopRemovePlace() {
-    modal.current.close();
+    setModalIsOpen(false);
   }
 
   function handleSelectPlace(id) {
@@ -65,7 +65,7 @@ function App() {
     setPickedPlaces((prevPickedPlaces) =>
       prevPickedPlaces.filter((place) => place.id !== selectedPlace.current)
     );
-    modal.current.close();
+    setModalIsOpen(false);
 
     const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
     localStorage.setItem('selectedPlaces', JSON.stringify(storedIds.filter((id) => id !== selectedPlace.current)))
@@ -73,7 +73,7 @@ function App() {
 
   return (
     <>
-      <Modal ref={modal}>
+      <Modal open={modalIsOpen}>
         <DeleteConfirmation
           onCancel={handleStopRemovePlace}
           onConfirm={handleRemovePlace}
