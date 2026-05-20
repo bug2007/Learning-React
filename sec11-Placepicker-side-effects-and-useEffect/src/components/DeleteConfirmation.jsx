@@ -1,13 +1,27 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+
+const TIMER = 3000;
 
 export default function DeleteConfirmation({ onConfirm, onCancel }) {
+  const [remainingTime, setRemainingTime] = useState(TIMER);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setRemainingTime(prevTime => prevTime - 10)
+    }, 10);
+
+    return () => {
+      clearInterval(interval);
+    }
+  }, [])
   
   useEffect(() => {  // modal opens. if we didnt close the delete confirmation modal even after 3s, the place shud be automatically deleted
     const timer = setTimeout(() => {
-      onConfirm()}, 3000);
+      onConfirm();
+    }, 3000);
 
-      return () => { clearTimeout(timer) }   // cleanup func that will be executed right before the effect func runs again or right before this component dismounts. but it does not execute right before the effect func runs for the first time
-  }, [])
+      return () => { clearTimeout(timer) };   // cleanup func that will be executed right before the effect func runs again or right before this component dismounts. but it does not execute right before the effect func runs for the first time
+  }, [onConfirm]);  // adding funcs sometimes cud result infinite loop tho. because everytime the App component re-renders, the func in onConfirm is created and it is considered as a new, different func everytime. and that means the dependency (onConfirm here) changes, and when dependency changes, useEffect is executed again. A fix to infinite loop is useCallback hook which will always work. it will ensure the onConfirm func (handleRemovePlace()) will not be recreated all the time
   
 
   return (
@@ -22,6 +36,7 @@ export default function DeleteConfirmation({ onConfirm, onCancel }) {
           Yes
         </button>
       </div>
+      <progress value={remainingTime} max={TIMER} />
     </div>
   );
 }

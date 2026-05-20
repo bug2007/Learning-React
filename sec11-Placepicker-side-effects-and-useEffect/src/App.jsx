@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from 'react';   // cant use react hooks in nested funcs, if else blocks
+import { useRef, useState, useEffect, useCallback } from 'react';   // cant use react hooks in nested funcs, if else blocks
 
 import Places from './components/Places.jsx';
 import { AVAILABLE_PLACES } from './data.js';
@@ -61,7 +61,7 @@ function App() {
     }
   }
 
-  function handleRemovePlace() {
+  const handleRemovePlace = useCallback(function handleRemovePlace() {  // returns the handleRemovePlace() func itself but such that it's not recreated whenever the component re-executes
     setPickedPlaces((prevPickedPlaces) =>
       prevPickedPlaces.filter((place) => place.id !== selectedPlace.current)
     );
@@ -69,7 +69,8 @@ function App() {
 
     const storedIds = JSON.parse(localStorage.getItem('selectedPlaces')) || [];
     localStorage.setItem('selectedPlaces', JSON.stringify(storedIds.filter((id) => id !== selectedPlace.current)))
-  }
+  }, []) // here, if the dependency changes, only then will React recreate this func
+  
 
   return (
     <>
