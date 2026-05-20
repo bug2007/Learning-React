@@ -33,7 +33,8 @@ export default function Quiz() {
     return (
         <div id="quiz">
             <div id="question">
-                <QuestionTimer timeout={10000} onTimeout={handleSkipAnswer} />
+                {/* setting this unique key (a built-in prop) so that the QuestionTimer is unmounted and remounted from the DOM everytime and as a result, those timer and interval in the QuestionTimer component will cleanup and reexecute the effect funcs, thus setting a new timer and new interval everytime. that way every new question will have a new timer and new interval set again  */}
+                <QuestionTimer key={activeQuestionIndex} timeout={10000} onTimeout={handleSkipAnswer} />
                 <h2>{QUESTIONS[activeQuestionIndex].text}</h2>
                 <ul id="answers">
                     {shuffledAnswers.map(answer => 
