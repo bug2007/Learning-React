@@ -1,4 +1,4 @@
-import { useState, memo } from 'react'; // prevents unncessary component executions. for example, if a state in the App component changes, all its child components will be re-executed which is not always necessary. this Counter component is a child component of the App component. memo compares its prop values and if it sees no change in the prop value received by the Counter when the App component re-executes, then memo will prevent re-execution of Counter component. but Counter will be executed if its state changes tho. that's not affected by memo. memo only prevents component executions that are triggered by the parent component. consequently, the child components of the Counter wont be re-executed as well then. btw, reexecutions of child components dont trigger parent component executions
+import { useState, memo, useCallback } from 'react'; // prevents unncessary component executions. for example, if a state in the App component changes, all its child components will be re-executed which is not always necessary. this Counter component is a child component of the App component. memo compares its prop values and if it sees no change in the prop value received by the Counter when the App component re-executes, then memo will prevent re-execution of Counter component. but Counter will be executed if its state changes tho. that's not affected by memo. memo only prevents component executions that are triggered by the parent component. consequently, the child components of the Counter wont be re-executed as well then. btw, reexecutions of child components dont trigger parent component executions
 
 import IconButton from '../UI/IconButton.jsx';
 import MinusIcon from '../UI/Icons/MinusIcon.jsx';
@@ -33,13 +33,13 @@ const Counter =  memo(function Counter({ initialCount }) {
 
   const [counter, setCounter] = useState(initialCount);
 
-  function handleDecrement() {
+  const handleDecrement = useCallback(function handleDecrement() {
     setCounter((prevCounter) => prevCounter - 1);
-  }
+  }, [])
 
-  function handleIncrement() {
+  const handleIncrement = useCallback(function handleIncrement() {
     setCounter((prevCounter) => prevCounter + 1);
-  }
+  }, [])
 
   return (
     <section className="counter">
