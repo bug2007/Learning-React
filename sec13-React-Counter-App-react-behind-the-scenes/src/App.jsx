@@ -11,7 +11,7 @@ function App() {
   const [chosenCount, setChosenCount] = useState(0);
 
   function handleSetCount(newCount) {
-    setChosenCount(newCount)
+    setChosenCount(newCount)   // in React, if u use multiple state updating funcs here simultaneously, this wont trigger multiple component func executions because those multiple state updates will be batched together and will lead to only one component func execution
   }
 
   return (
