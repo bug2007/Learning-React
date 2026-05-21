@@ -1,4 +1,4 @@
-import { useState, memo, useCallback } from 'react'; // prevents unncessary component executions. for example, if a state in the App component changes, all its child components will be re-executed which is not always necessary. this Counter component is a child component of the App component. memo compares its prop values and if it sees no change in the prop value received by the Counter when the App component re-executes, then memo will prevent re-execution of Counter component. but Counter will be executed if its state changes tho. that's not affected by memo. memo only prevents component executions that are triggered by the parent component. consequently, the child components of the Counter wont be re-executed as well then. btw, reexecutions of child components dont trigger parent component executions
+import { useState, memo, useCallback, useMemo } from 'react'; // useMemo() prevents executions of normal functions unless their parameter values change. memo prevents unncessary component executions. for example, if a state in the App component changes, all its child components will be re-executed which is not always necessary. this Counter component is a child component of the App component. memo compares its prop values and if it sees no change in the prop value received by the Counter when the App component re-executes, then memo will prevent re-execution of Counter component. but Counter will be executed if its state changes tho. that's not affected by memo. memo only prevents component executions that are triggered by the parent component. consequently, the child components of the Counter wont be re-executed as well then. btw, reexecutions of child components dont trigger parent component executions
 
 import IconButton from '../UI/IconButton.jsx';
 import MinusIcon from '../UI/Icons/MinusIcon.jsx';
@@ -29,7 +29,7 @@ function isPrime(number) {
 
 const Counter =  memo(function Counter({ initialCount }) {
   log('<Counter /> rendered', 1);
-  const initialCountIsPrime = isPrime(initialCount);
+  const initialCountIsPrime = useMemo(() => isPrime(initialCount), [initialCount]); // this func will re-excecute only if the initialCount changes. otherwise, it wudnt even if state in Counter changes.
 
   const [counter, setCounter] = useState(initialCount);
 
