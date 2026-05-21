@@ -34,7 +34,7 @@ export default function Question({index, onSkipAnswer, onSelectAnswer}) {  // ca
 
             setTimeout(() => {
                 onSelectAnswer(answer);
-            })
+            }, 2000)
         }, 1000)
     }
 
