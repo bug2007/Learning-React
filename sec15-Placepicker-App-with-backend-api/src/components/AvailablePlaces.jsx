@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-
+import { useState, useEffect } from 'react';   // hooks can be used inside component functions or inside other hooks (custom hooks). idea behind custom hooks is to reuse code that doesnt return JSX code. if it did, we cud just use custom component
+ 
 import Places from './Places.jsx';
 import ErrorPage from './Error.jsx'
 import { sortPlacesByDistance } from '../loc.js';
@@ -25,7 +25,7 @@ export default function AvailablePlaces({ onSelectPlace }) {
       } catch (error) {
         setError({message: error.message || 'Could not fetch places, please try again'})
         setIsFetching(false)
-      }
+      } 
     }
 
     fetchPlaces()
