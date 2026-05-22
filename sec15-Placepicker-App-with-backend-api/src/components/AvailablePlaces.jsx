@@ -1,35 +1,25 @@
-import { useState, useEffect } from 'react';   // hooks can be used inside component functions or inside other hooks (custom hooks). idea behind custom hooks is to reuse code that doesnt return JSX code. if it did, we cud just use custom component
+// hooks can be used inside component functions or inside other hooks (custom hooks). idea behind custom hooks is to reuse code that doesnt return JSX code. if it did, we cud just use custom component
  
 import Places from './Places.jsx';
 import ErrorPage from './Error.jsx'
 import { sortPlacesByDistance } from '../loc.js';
 import { fetchAvailablePlaces } from '../http.js';
+import { useFetch } from '../hooks/useFetch.js';
+
+async function fetchSortedPlaces() {
+  const places = await fetchAvailablePlaces()
+
+  return new Promise((resolve) => {
+    navigator.geolocation.getCurrentPosition((position) => {
+      const sortedPlaces = sortPlacesByDistance(places, position.coords.latitude, position.coords.longitude)
+      resolve(sortedPlaces)
+    })
+  })
+}
+
 
 export default function AvailablePlaces({ onSelectPlace }) {
-  const [isFetching, setIsFetching] = useState(false)
-  const [availablePlaces, setAvailablePlaces] = useState([]);
-  const [error, setError] = useState()
-
-  useEffect(() => {
-    async function fetchPlaces() {
-      setIsFetching(true)
-      
-      try {
-        const places = await fetchAvailablePlaces();
-        navigator.geolocation.getCurrentPosition((position) => {
-          const sortedPlaces = sortPlacesByDistance(places, position.coords.latitude, position.coords.longitude)
-          setAvailablePlaces(sortedPlaces)
-          setIsFetching(false)
-        })
-
-      } catch (error) {
-        setError({message: error.message || 'Could not fetch places, please try again'})
-        setIsFetching(false)
-      } 
-    }
-
-    fetchPlaces()
-  }, [])
+  const { isFetching, error, fetchedData: availablePlaces } = useFetch(fetchSortedPlaces, [])
 
   if (error) {
     return <ErrorPage title="An error occurred!" message={error.message} />
