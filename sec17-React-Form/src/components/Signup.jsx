@@ -7,6 +7,7 @@ export default function Signup() {
     const data = Object.fromEntries(fd.entries()) // returns key value pairs for all the input fields in the form. will not include the checkboxes cuz they all have the same name
     data.acquisition = acquisitionChannel;
     // console.log(data)
+    // event.target.reset()
   }
 
   return (
