@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export function useFetch(fetchFn, initialValue) {
-    const [isFetching, setIsFetching] = useState(false)  // any state thats managed inside the custom hook automatically belongs to the component where the custom hook is being used. so these state updates will reexecute the App component as we're using this custom hook inside the App component
+    const [isFetching, setIsFetching] = useState(false)  // any state thats managed inside the custom hook automatically belongs to the component where the custom hook is being used. so these state updates will reexecute the App component as we're using this custom hook inside the App component. we can also update these states from inside the App component
     const [error, setError] = useState()
     const [fetchedData, setFetchedData] = useState(initialValue);
 
@@ -24,6 +24,7 @@ export function useFetch(fetchFn, initialValue) {
     return {
         isFetching,
         fetchedData,
+        setFetchedData,
         error
     }
 }

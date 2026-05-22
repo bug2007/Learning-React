@@ -16,7 +16,7 @@ function App() {
 
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
-  const { isFetching, error, fetchedData } = useFetch(fetchUserPlaces, []);
+  const { isFetching, error, fetchedData: userPlaces, setFetchedData: setUserPlaces } = useFetch(fetchUserPlaces, []);
 
   function handleStartRemovePlace(place) {
     setModalIsOpen(true);
@@ -95,7 +95,7 @@ function App() {
           fallbackText="Select the places you would like to visit below."
           isLoading={isFetching}
           loadingText="Fetching your places..."
-          places={fetchedData}
+          places={userPlaces}
           onSelectPlace={handleStartRemovePlace}
         />}
 
