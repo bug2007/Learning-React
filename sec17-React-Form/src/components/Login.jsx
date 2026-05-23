@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 
 export default function Login() {
+  // const [emailIsInvalid, setEmailIsInvalid] = useState(false)
   // const [enteredValues, setEnteredValues] = useState({
   //   email: '',
   //   password: ''
@@ -24,6 +25,14 @@ export default function Login() {
     const enteredPassword = password.current.value;
 
     console.log(enteredEmail, enteredPassword)
+      // const emailIsValid = enteredEmail.includes('@');
+      // if (!emailIsValid) {
+        // setEmailIsInvalid(true)
+        // return
+      // }
+
+      // setEmailIsInvalid(false)
+
   };
 
   // function handleInputChange(identifier, value) {
