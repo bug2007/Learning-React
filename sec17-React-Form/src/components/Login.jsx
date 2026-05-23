@@ -1,30 +1,24 @@
 import { useRef, useState } from "react";
+import { useInput } from "../hooks/useInput";
 
 export default function Login() {
+  const { value: emailValue, handleInputChange: handleEmailChange, handleInputBlur: handleEmailBlur } = useInput('')
+  const { value: passwordValue, handleInputChange: handlePasswordChange, handleInputBlur: handlePasswordBlur } = useInput('')
   // const [emailIsInvalid, setEmailIsInvalid] = useState(false)
-  // const [enteredValues, setEnteredValues] = useState({
-  //   email: '',
-  //   password: ''
-  // })
-
-  const [didEdit, setDidEdit] = useState({
-    email: false,
-    password: false
-  })
 
   // const emailIsInvalid = entered.values.email !== '' && !enteredValues.email.includes('@');
   // const emailIsInvalid = didEdit.email && !enteredValues.email.includes('@');
 
-  const email = useRef()
-  const password = useRef()
+  // const email = useRef()
+  // const password = useRef()
 
   function handleSubmit(event) {
     event.preventDefault()
 
-    const enteredEmail = email.current.value;
-    const enteredPassword = password.current.value;
+    // const enteredEmail = email.current.value;
+    // const enteredPassword = password.current.value;
 
-    console.log(enteredEmail, enteredPassword)
+    // console.log(enteredEmail, enteredPassword)
       // const emailIsValid = enteredEmail.includes('@');
       // if (!emailIsValid) {
         // setEmailIsInvalid(true)
@@ -34,20 +28,6 @@ export default function Login() {
       // setEmailIsInvalid(false)
 
   };
-
-  // function handleInputChange(identifier, value) {
-  //   setEnteredValues((prevValues) => ({   // round brackets to tell that we wanna immediately return
-  //     ...prevValues, 
-  //     [identifier]: value
-  //   }))
-  // }
-
-  // function handleInputBlur(identifier) {
-  //   setDidEdit(prevEdit => ({
-  //     ...prevEdit,
-  //     [identifier]: true
-  //   }))
-  // }
 
   return (
     <form onSubmit={handleSubmit}>
