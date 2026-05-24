@@ -1,7 +1,11 @@
-import { useActionState } from "react";
+import { useActionState, use } from "react";
+
+import { OpinionsContext } from "../store/opinions-context";
 
 export function NewOpinion() {
-  function shareOpinionAction(prevState, formData) {
+  const { addOpinion } = use(OpinionsContext)
+
+  async function shareOpinionAction(prevState, formData) { // react will wait for the promise that is returned by this action func to resolve before it internally marks this form as submitted 
     const title = formData.get('title');
     const body = formData.get('body');
     const userName = formData.get('userName');
@@ -25,6 +29,7 @@ export function NewOpinion() {
     }
 
     // submit to backend
+    await addOpinion({ title, body, userName }) // want to wait till the data is submitted to the backend to return and have the form reset by default
     return { errors: null}
   }
 
