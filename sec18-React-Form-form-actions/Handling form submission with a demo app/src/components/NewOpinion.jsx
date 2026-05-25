@@ -1,6 +1,9 @@
+// import { useFormStatus } from 'react-dom';  // cant be used in the component that contains the form and the form action. must be used in some nested component used inside of the form
+
 import { useActionState, use } from "react";
 
 import { OpinionsContext } from "../store/opinions-context";
+import Submit from './Submit.jsx';
 
 export function NewOpinion() {
   const { addOpinion } = use(OpinionsContext)
@@ -61,9 +64,7 @@ export function NewOpinion() {
             <li key={error}>{error}</li>)}
           </ul>}
 
-        <p className="actions">
-          <button type="submit">Submit</button>
-        </p>
+          <Submit />
       </form>
     </div>
   );
