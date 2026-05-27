@@ -1,9 +1,10 @@
-import { createContext, useReducer } from "react";
+import { act, createContext, useReducer } from "react";
 
 const CartContext = createContext({  // no need to set this value here because we're gonna set it later anyway but u can give this value now for better autocompletion
     items: [],
     addItem: (item) => {},
-    removeItem: (id) => {}
+    removeItem: (id) => {},
+    clearCart: () => {}
 })
 
 function cartReducer(state, action) {   // we cud have used only useState inside the CartContextProvider component for state management but since the state logic is a bit complex, we're using useReducer which makes state management easier (it is used for state management purposes) and allows us to define a useReducer func outside the component
@@ -42,6 +43,10 @@ function cartReducer(state, action) {   // we cud have used only useState inside
         return {...state, items: updatedItems}
     }
 
+    if (action.type === 'CLEAR_CART') {
+        return {...state, items: []}
+    }
+
     return state;
 }
 
@@ -56,10 +61,15 @@ export function CartContextProvider({children}) {  // the CartContext is only ab
         dispatchCartAction({type: 'REMOVE_ITEM', id})
     }
 
+    function clearCart() {
+        dispatchCartAction({type: 'CLEAR_CART'})
+    }
+
     const cartContext = {
         items: cart.items,
         addItem,
-        removeItem
+        removeItem,
+        clearCart
     }
 
     return <CartContext value={cartContext}>{children}</CartContext>
