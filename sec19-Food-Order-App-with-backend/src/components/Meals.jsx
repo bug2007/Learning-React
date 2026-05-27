@@ -1,24 +1,15 @@
-import { useState, useEffect } from "react";
+import useHttp from "../hooks/useHttp.js";
 
 import MealItem from "./MealItem.jsx";
 
+const requestConfig = {}; // creating the obj outside because if we just put an empty obj inside the component, it will be recreated with every component execution and will lead to infinite loop as we use the empty obj as a dependency in useEffect inside useHttp hook
+
 export default function Meals() {
-    const [loadedMeals, setLoadedMeals] = useState([]);
+    const {data: loadedMeals, isLoading, error} = useHttp('http://localhost:3000/meals', requestConfig, [])
 
-    useEffect(() => {
-        async function fetchMeals() {
-            const response = await fetch('http://localhost:3000/meals');
-
-            if (!response.ok) {
-                // ..
-            }
-
-            const meals = await response.json();
-            setLoadedMeals(meals);
-        }
-        
-        fetchMeals();
-    }, [])
+    if (isLoading) {
+        return <p>Fetching meals...</p>
+    }
     
     return (
     <ul id="meals">
