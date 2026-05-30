@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux'; // useSelector allows us to access a part of state. when u use useSelector(), react redux will automatically set up a subscription to the redux store for this component. so component will be updated & receive the latest state (counter, here) automatically when the data changes in redux store  
 import classes from './Counter.module.css';
-import { counterActions } from '../store/index.js';
+import { counterActions } from '../store/counter';
 
 const Counter = () => {
   const dispatch = useDispatch(); // dispatch here is a func which will dispatch an action against our redux store
