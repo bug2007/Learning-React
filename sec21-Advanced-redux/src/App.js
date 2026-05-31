@@ -62,7 +62,9 @@ function App() {
       return
     }
 
-    dispatch(sendCartData(cart));  // redux will go ahead & execute the func returned by sendCartData() in cart-slice.js
+    if (cart.changed) {
+      dispatch(sendCartData(cart));  // redux will go ahead & execute the func returned by sendCartData() in cart-slice.js
+    }
 
   }, [cart])   // so that this effect func reexecutes whenever the cart in our Redux store changes
 
