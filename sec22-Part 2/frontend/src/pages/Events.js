@@ -1,5 +1,5 @@
 // import { useEffect, useState } from 'react';
-import { useLoaderData } from 'react-router-dom'; // to get access to the closest loader data
+import { useLoaderData, json } from 'react-router-dom'; // to get access to the closest loader data
 
 import EventsList from '../components/EventsList';
 

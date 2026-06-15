@@ -22,7 +22,7 @@
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import HomePage from './pages/Home';
 import EventsPage, {loader as eventsLoader} from './pages/Events';
-import EventDetailPage from './pages/EventDetail';
+import EventDetailPage, {loader as eventDetailLoader} from './pages/EventDetail';
 import NewEventPage from './pages/NewEvent';
 import EditEventPage from './pages/EditEvent';
 import RootLayout from './pages/Root';
@@ -30,15 +30,17 @@ import EventsRootLayout from './pages/EventsRoot';
 import ErrorPage from './pages/Error';
 
 const router = createBrowserRouter([
-  {path: '/', element: <RootLayout />, errorElement: <ErrorPage />,
+  {path: '/', element: <RootLayout />, errorElement: <ErrorPage />,  // RootLayout will be a shared element
     children: [
-      {index: true, element: <HomePage />},
-      {path: 'events', element: <EventsRootLayout />,
+      {index: true, element: <HomePage />},  
+      {path: 'events', element: <EventsRootLayout />,  // EventsRootLayout will be a shared element
         children: [
           {index: true, element: <EventsPage />, loader: eventsLoader},  // default component that will show at /events. loader func will run when u r about to go to this route. react loader will wait for the loader to be finished before navigating to the route. so no need to add loading state inside the component that's supposed to be rendered. optimizes performance. rather than fetching data after we visit the route, it's better to have it fetched beforehand
-          {path: ':eventId', element: <EventDetailPage />},
+          {path: ':eventId', id: 'event-detail', loader: eventDetailLoader, children: [  // eventDetailLoader will be a shared loader
+            {index: true, element: <EventDetailPage />},
+            {path: 'edit', element: <EditEventPage />},
+          ]},
           {path: 'new', element: <NewEventPage />},
-          {path: ':eventId/edit', element: <EditEventPage />},
         ]
       }
     ]
