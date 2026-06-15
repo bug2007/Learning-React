@@ -21,29 +21,21 @@
 // BONUS: Add another (nested) layout route that adds the <EventNavigation> component above all /events... page components
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
 import HomePage from './pages/Home';
-import EventsPage from './pages/Events';
+import EventsPage, {loader as eventsLoader} from './pages/Events';
 import EventDetailPage from './pages/EventDetail';
 import NewEventPage from './pages/NewEvent';
 import EditEventPage from './pages/EditEvent';
 import RootLayout from './pages/Root';
 import EventsRootLayout from './pages/EventsRoot';
+import ErrorPage from './pages/Error';
 
 const router = createBrowserRouter([
-  {path: '/', element: <RootLayout />,
+  {path: '/', element: <RootLayout />, errorElement: <ErrorPage />,
     children: [
       {index: true, element: <HomePage />},
       {path: 'events', element: <EventsRootLayout />,
         children: [
-          {index: true, element: <EventsPage />, loader: async () => {  // loader func will run when u r about to go to this route. speeds up performance. rather than fetching data after we visit the route, it's better to have it fetched beforehand
-            const response = await fetch('http://localhost:8080/events');
-
-            if (!response.ok) {
-              // 
-            } else {
-              const resData = await response.json();
-              return resData.events;
-            }
-          }}, // default component that will show at /events
+          {index: true, element: <EventsPage />, loader: eventsLoader},  // default component that will show at /events. loader func will run when u r about to go to this route. react loader will wait for the loader to be finished before navigating to the route. so no need to add loading state inside the component that's supposed to be rendered. optimizes performance. rather than fetching data after we visit the route, it's better to have it fetched beforehand
           {path: ':eventId', element: <EventDetailPage />},
           {path: 'new', element: <NewEventPage />},
           {path: ':eventId/edit', element: <EditEventPage />},
