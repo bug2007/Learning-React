@@ -20,14 +20,19 @@
 // 7. Output the ID of the selected event on the EventDetailPage
 // BONUS: Add another (nested) layout route that adds the <EventNavigation> component above all /events... page components
 import { RouterProvider, createBrowserRouter } from 'react-router-dom';
-import HomePage from './pages/Home';
-import EventsPage, {loader as eventsLoader} from './pages/Events';
-import EventDetailPage, {loader as eventDetailLoader, action as deleteEventAction} from './pages/EventDetail';
-import NewEventPage, {action as newEventAction} from './pages/NewEvent';
 import EditEventPage from './pages/EditEvent';
-import RootLayout from './pages/Root';
-import EventsRootLayout from './pages/EventsRoot';
 import ErrorPage from './pages/Error';
+import EventDetailPage, {
+  loader as eventDetailLoader,
+  action as deleteEventAction,
+} from './pages/EventDetail';
+import EventsPage, { loader as eventsLoader } from './pages/Events';
+import EventsRootLayout from './pages/EventsRoot';
+import HomePage from './pages/Home';
+import NewEventPage from './pages/NewEvent';
+import RootLayout from './pages/Root';
+import { action as manipulateEventAction } from './components/EventForm';
+import NewsletterPage, {action as newsletterAction} from './pages/Newsletter';
 
 const router = createBrowserRouter([
   {path: '/', element: <RootLayout />, errorElement: <ErrorPage />,  // RootLayout will be a shared element
@@ -38,11 +43,12 @@ const router = createBrowserRouter([
           {index: true, element: <EventsPage />, loader: eventsLoader},  // default component that will show at /events. use loaders to load data and actions to send data. loader func will run when u r about to go to this route. react loader will wait for the loader to be finished before navigating to the route. so no need to add loading state inside the component that's supposed to be rendered. optimizes performance. rather than fetching data after we visit the route, it's better to have it fetched beforehand
           {path: ':eventId', id: 'event-detail', loader: eventDetailLoader, children: [  // eventDetailLoader will be a shared loader
             {index: true, element: <EventDetailPage />, action: deleteEventAction},
-            {path: 'edit', element: <EditEventPage />},
+            {path: 'edit', element: <EditEventPage />, action: manipulateEventAction},
           ]},
-          {path: 'new', element: <NewEventPage />, action: newEventAction},
+          {path: 'new', element: <NewEventPage />, action: manipulateEventAction},
         ]
-      }
+      },
+      {path: 'newsletter', element: <NewsletterPage />, action: newsletterAction}
     ]
   }
 ])
