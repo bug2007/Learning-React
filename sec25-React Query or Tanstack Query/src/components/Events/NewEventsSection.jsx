@@ -1,6 +1,6 @@
 // import { useEffect, useState } from 'react';
 
-// Tanstack query doesnt send http reqs on its own. u have to write the code that sends the actual http req. tanstack query then manages the data, erros, caching and much more. also, if u go away from the app, and return, the reqs, for example, a fetch req, is sent again so that in case the backend data has changed, the updated/latest data is presented to the user
+// Tanstack query doesnt send http reqs on its own. u have to write the code that sends the actual http req. tanstack query then manages the data, erros, caching and much more. also, if u go away from the app, and return, the reqs, for example, a fetch req, is sent again behind the scenes so that in case the backend data has changed, the updated/latest data is presented to the user
 import { useQuery } from '@tanstack/react-query'; 
 
 import LoadingIndicator from '../UI/LoadingIndicator.jsx';
@@ -44,7 +44,9 @@ export default function NewEventsSection() {
 
   const { data, isPending, isError, error } = useQuery({
     queryKey: ['events'], // has to be an arr of values. key is needed to be able to reuse the data later
-    queryFn: fetchEvents // has to be a func that returns a promise. the response will be cached by tanstack query so that we can reuse the data later
+    queryFn: fetchEvents, // has to be a func that returns a promise. the response data will be cached by tanstack query so that we can instantly reuse/present the data later but at the same time, the fetch req will be sent again behind the scenes to see if there's any updated data.
+    staleTime: 5000, // after which time tanstack query will send such a behind the scenes req to fetch updated data if it found any data in ur cache 
+    // gcTime: 30000 // how long the data and the cache will be kept for
   })
 
   let content;
