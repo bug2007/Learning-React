@@ -34,7 +34,7 @@ function RootLayout() {
         <Outlet />
       </main>
     </>
-  );
+  );  
 }
 
 export default RootLayout;
