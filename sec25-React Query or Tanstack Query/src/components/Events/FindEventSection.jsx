@@ -8,11 +8,12 @@ import EventItem from './EventItem.jsx';
 
 export default function FindEventSection() {
   const searchElement = useRef();
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState();
 
-  const { data, isPending, isError, error } = useQuery({
+  const { data, isLoading, isPending, isError, error } = useQuery({
     queryKey: ['events', { search: searchTerm}],
-    queryFn: () => fetchEvents(searchTerm)
+    queryFn: ({signal}) => fetchEvents({signal, searchTerm}),
+    enabled: searchTerm !== undefined // if the user enters input and then clears the input field, it wud be an empty string, not undefined. if enabled: true, then query will be able to send req otherwise no. note: when the query is disabled (enabled: false), isPending is true (but isLoading will be false) because we're still waiting for data to arrive
   })
 
   function handleSubmit(event) {
@@ -22,7 +23,7 @@ export default function FindEventSection() {
 
   let content = <p>Please enter a search term and to find events.</p>
 
-  if (isPending) {
+  if (isLoading) {
     content = <LoadingIndicator />
   }
 
