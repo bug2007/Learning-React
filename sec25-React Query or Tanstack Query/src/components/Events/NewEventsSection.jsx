@@ -1,7 +1,7 @@
 // import { useEffect, useState } from 'react';
 
 // Tanstack query doesnt send http reqs on its own. u have to write the code that sends the actual http req. tanstack query then manages the data, erros, caching and much more. also, if u go away from the app, and return, the reqs, for example, a fetch req, is sent again behind the scenes so that in case the backend data has changed, the updated/latest data is presented to the user
-import { useQuery } from '@tanstack/react-query'; 
+import { useQuery } from '@tanstack/react-query'; // only use useQuery to get/fetch data
 
 import LoadingIndicator from '../UI/LoadingIndicator.jsx';
 import ErrorBlock from '../UI/ErrorBlock.jsx';
