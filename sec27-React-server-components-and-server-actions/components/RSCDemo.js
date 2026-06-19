@@ -1,4 +1,6 @@
-export default function RSCDemo() {
+// import ClientDemo from "./ClientDemo";
+
+export default async function RSCDemo() {  // async is not allowed in client components. only in server components.
   console.log('RSCDemo rendered');  // will not show up on browser console but on terminal. msgs that show up on terminal are printed by the server. in next.js project setup like this, all react components are server components by default
   return (
     <div className='rsc'>
@@ -9,6 +11,7 @@ export default function RSCDemo() {
       <p>
         <strong>NEVER</strong> on the client-side!
       </p>
+      {/* <ClientDemo /> */}
     </div>
   );
 }
