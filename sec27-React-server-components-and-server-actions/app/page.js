@@ -6,6 +6,7 @@
 import UsePromiseDemo from "@/components/UsePromisesDemo";
 import { Suspense } from "react";
 import fs from 'node:fs/promises';
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 
 export default async function Home() {
   const fetchUsersPromise = new Promise((resolve) => setTimeout(async () => {
@@ -21,9 +22,11 @@ export default async function Home() {
       </ClientDemo> */}
       {/* <DataFetchingDemo /> */}
       {/* <ServerActionsDemo /> */}
-      <Suspense fallback={<p>Loading users...</p>}>
-        <UsePromiseDemo usersPromise={fetchUsersPromise} />
-      </Suspense>
+      <ErrorBoundary fallback={<p>Something went wrong!</p>}>
+        <Suspense fallback={<p>Loading users...</p>}>
+          <UsePromiseDemo usersPromise={fetchUsersPromise} />
+        </Suspense>
+      </ErrorBoundary>
     </main>
   );
 }
