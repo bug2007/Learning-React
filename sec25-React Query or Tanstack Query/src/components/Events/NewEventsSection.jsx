@@ -31,7 +31,7 @@ export default function NewEventsSection() {
   //   } 
 
   //   fetchEvents()
-  //     .then((events) => {
+  //     .then((events) => { 
   //       setData(events);
   //     })
   //     .catch((error) => {
@@ -44,8 +44,8 @@ export default function NewEventsSection() {
 
   // any change to data, isPending or any other state will cause useQuery to reexecute the component
   const { data, isPending, isError, error } = useQuery({
-    queryKey: ['events'], // has to be an arr of values. key is needed to be able to reuse the data later
-    queryFn: fetchEvents, // has to be a func that returns a promise. the response data will be cached by tanstack query so that we can instantly reuse/present the data later but at the same time, the fetch req will be sent again behind the scenes to see if there's any updated data.
+    queryKey: ['events', {max: 3}], // has to be an arr of values. key is needed to be able to reuse the data later
+    queryFn: ({signal, queryKey}) => fetchEvents({signal, ...queryKey[1]}), // has to be a func that returns a promise. the response data will be cached by tanstack query so that we can instantly reuse/present the data later but at the same time, the fetch req will be sent again behind the scenes to see if there's any updated data.
     staleTime: 5000, // after which time tanstack query will send such a behind the scenes req to fetch updated data if it found any data in ur cache 
     // gcTime: 30000 // how long the data and the cache will be kept for
   })
