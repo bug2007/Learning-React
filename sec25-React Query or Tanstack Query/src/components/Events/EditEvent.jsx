@@ -3,7 +3,6 @@ import { useQuery, useMutation } from '@tanstack/react-query';
 
 import Modal from '../UI/Modal.jsx';
 import EventForm from './EventForm.jsx';
-import LoadingIndicator from '../UI/LoadingIndicator.jsx'
 import { fetchEvent, updateEvent, queryClient } from '../../util/http.js';
 import ErrorBlock from '../UI/ErrorBlock.jsx';
 
@@ -11,9 +10,10 @@ export default function EditEvent() {
   const navigate = useNavigate();
   const params = useParams();
 
-  const {data, isPending, isError, error} = useQuery({
+  const {data, isError, error} = useQuery({  // cached data is being used since we already fetched the data in the loader. the reason why we used useQuery here instead of just getting the data from useLoaderData() is so that we cud use the advantages of useQuery i.e the fact it refetches data from backend behind the scenes if we go outta the window and come back
     queryKey: ['events', params.id],
-    queryFn: ({signal}) => fetchEvent({signal, id: params.id}) 
+    queryFn: ({signal}) => fetchEvent({signal, id: params.id}),
+    staleTime: 10000  // if the data is less than 10s old,  then the cached data is used without refetching it behind the scenes. this way, fetch req wont be sent immediately after we already fetched it in the loader. data will be marked as stale after 10s and refetch will happen when required, for example, when going out of and coming back to the window after 10s
   })
 
   const {mutate} = useMutation({
@@ -47,14 +47,6 @@ export default function EditEvent() {
 
   let content;
 
-  if (isPending) {
-    content = (
-      <div className='center'>
-        <LoadingIndicator />
-      </div>
-    )
-  }
-
   if (isError) {
     content = (
       <>
@@ -86,4 +78,11 @@ export default function EditEvent() {
       {content}
     </Modal>
   );
+}
+
+export function loader({params}) { // fetching eventData before rendering this EditEvent component
+  return queryClient.fetchQuery({  // an alternative to useQuery
+    queryKey: ['events', params.id],
+    queryFn: ({signal}) => fetchEvent({signal, id: params.id}) 
+  })
 }
