@@ -28,7 +28,8 @@ export default function ChallengeItem({
   }
 
   return (
-    <li>
+    // with layout, framer motion will automatically animate any layout changes e.g the list item moving up smoothly when the item above it is removed
+    <motion.li layout exit={{ y:-30, opacity: 0} }>
       <article className="challenge-item">
         <header>
           <img {...challenge.image} />
@@ -62,6 +63,6 @@ export default function ChallengeItem({
           )}
         </div>
       </article>
-    </li>
+    </motion.li>
   );
 }
