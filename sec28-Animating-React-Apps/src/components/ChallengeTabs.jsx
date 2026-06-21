@@ -9,7 +9,8 @@ function Tab({ isSelected, onSelect, badgeCaption, children }) {
         onClick={onSelect}
       >
         {children}
-        <Badge caption={badgeCaption}></Badge>
+        {/* Badge component is recreated everytime the key value (badgeCaption) changes which also re-triggers the animation inside the Badge component */}
+        <Badge key={badgeCaption} caption={badgeCaption}></Badge> 
       </button>
       {/* due to this layoutId, framer motion will automatically detect whenever u r rendering an element with the same layoutId in a different place of the page and will animate it smoothly */}
       {isSelected && <motion.div layoutId='tab-indicator' className="active-tab-indicator" />} 
