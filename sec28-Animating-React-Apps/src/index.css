@@ -280,11 +280,6 @@ main {
   display: inline-block;
   font-size: 0.85rem;
   margin-left: 0.25rem;
-  transition: transform 0.3s ease-out;
-}
-
-.challenge-item-details.expanded .challenge-item-details-icon {
-  transform: rotate(180deg);
 }
 
 .challenge-item-description {
@@ -315,7 +310,7 @@ main {
   max-width: 90%;
   z-index: 10;
   /* wanna keep the animation once the end state is done */
-  animation: slide-up-fade-in 0.3s ease-out forwards; 
+  /* animation: slide-up-fade-in 0.3s ease-out forwards;  */
 }
 
 @keyframes slide-up-fade-in {
