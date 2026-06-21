@@ -13,9 +13,9 @@ export default function Modal({ title, children, onClose }) {
           hidden: {opacity: 0, y: 30},  // key names are upto u
           visible: {opacity: 1, y: 0}
         }}
-        initial='hidden'
-        animate='visible'
-        exit='hidden'
+        initial="hidden"
+        animate="visible"
+        exit="hidden"
         open className="modal">
         <h2>{title}</h2>
         {children}
