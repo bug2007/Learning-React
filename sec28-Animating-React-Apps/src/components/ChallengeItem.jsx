@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 
 import { ChallengesContext } from '../store/challenges-context.jsx';
 
@@ -28,7 +28,7 @@ export default function ChallengeItem({
   }
 
   return (
-    // with layout, framer motion will automatically animate any layout changes e.g the list item moving up smoothly when the item above it is removed
+    // with layout, framer motion will automatically animate any layout changes related to position and height e.g the list item moving up smoothly when the item above it is removed
     <motion.li layout exit={{ y:-30, opacity: 0} }>
       <article className="challenge-item">
         <header>
@@ -54,13 +54,18 @@ export default function ChallengeItem({
             </button>
           </p>
 
-          {isExpanded && (
-            <div>
-              <p className="challenge-item-description">
-                {challenge.description}
-              </p>
-            </div>
-          )}
+          <AnimatePresence>
+            {isExpanded && (
+              <motion.div
+                initial={{height: 0, opacity: 0}}
+                animate={{height: 'auto', opacity: 1}}
+                exit={{height: 0, opacity: 0}}>
+                <p className="challenge-item-description">
+                  {challenge.description}
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </article>
     </motion.li>

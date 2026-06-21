@@ -46,6 +46,8 @@ export default function Challenges() {
           {displayedChallenges.length > 0 && (
             <motion.ol 
               key='list' // always put a key to elements if there r more than 1 element inside the AnimatePresence so that framer motion can tell apart the different elements
+              initial={{opacity: 0, y: -20}} 
+              animate={{opacity: 1, y: 0}}
               exit={{y: -30, opacity: 0}} className="challenge-items">
               <AnimatePresence>
                 {displayedChallenges.map((challenge) => (

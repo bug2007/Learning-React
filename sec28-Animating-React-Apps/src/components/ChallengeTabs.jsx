@@ -1,4 +1,5 @@
 import Badge from './Badge.jsx';
+import { motion } from 'framer-motion';
 
 function Tab({ isSelected, onSelect, badgeCaption, children }) {
   return (
@@ -10,11 +11,12 @@ function Tab({ isSelected, onSelect, badgeCaption, children }) {
         {children}
         <Badge caption={badgeCaption}></Badge>
       </button>
-      {isSelected && <div className="active-tab-indicator" />}
+      {/* due to this layoutId, framer motion will automatically detect whenever u r rendering an element with the same layoutId in a different place of the page and will animate it smoothly */}
+      {isSelected && <motion.div layoutId='tab-indicator' className="active-tab-indicator" />} 
     </li>
   );
 }
-
+ 
 export default function ChallengeTabs({
   selectedType,
   onSelectType,
