@@ -15,7 +15,7 @@ body {
 #main-header {
   max-width: 40rem;
   margin: 2rem auto 4rem auto;
-  display: flex;
+  display: flex; 
   align-items: center;
   gap: 2rem;
   color: #c1d9fa;
@@ -62,9 +62,12 @@ main {
 }
 
 .accordion-item-content {
-  display: none;
   padding: 1rem;
   background-color: #2c344a;
+}
+
+.close {
+  display: none;
 }
 
 .open {

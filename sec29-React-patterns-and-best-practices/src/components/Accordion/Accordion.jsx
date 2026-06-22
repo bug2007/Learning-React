@@ -1,5 +1,7 @@
 import { createContext, useContext, useState } from "react";
 import AccordionItem from "./AccordionItem";
+import AccordionContent from "./AccordionContent";
+import AccordionTitle from "./AccordionTitle";
 
 const AccordionContext = createContext();
 
@@ -35,3 +37,5 @@ export default function Accordion({children, className}) {
 
 // funcs are objects, so we can add properties to funcs. property names are upto us. this is to form compound components so that they know about each other and work together like the <select> and <option> elements. now if we try to use Accordion.Item outside of Accordion (without wrapping Accordion around it), it wud throw an error
 Accordion.Item = AccordionItem
+Accordion.Title = AccordionTitle
+Accordion.Content = AccordionContent
